@@ -1,16 +1,24 @@
-// Filename - index.js
+const express = require("express");
+const path = require("path");
+const loginHandler = require("./api/login_handler"); // if you already made this
 
-// Importing the http module
-const http = require("http")
+const app = express();
+const PORT = 3000;
 
-// Creating server 
-const server = http.createServer((req, res) => {
-    // Sending the response
-    res.write("This is the response from the server")
-    res.end();
-})
+// parse JSON bodies
+app.use(express.json());
 
-// Server listening to port 3000
-server.listen((3000), () => {
-    console.log("Server is Running");
-})
+// serve static files from /public
+app.use(express.static(path.join(__dirname, "public")));
+
+// when user goes to "/", send login.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+// login API
+app.post("/api/login", loginHandler); // or put handler inline if you prefer
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
