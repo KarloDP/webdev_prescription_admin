@@ -3,7 +3,9 @@ const pool = require('../config/db');
 
 const Admin = {
   async getAll() {
-    const [rows] = await pool.query('SELECT adminID, firstName, lastName FROM admins');
+    const [rows] = await pool.query(
+      'SELECT adminID, firstName, lastName FROM admins'
+    );
     return rows;
   },
 
