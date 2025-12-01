@@ -21,7 +21,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const data = await res.json();
 
     if (data.success) {
-      window.location.href = "/dashboard.html"; // redirect after login
+      window.location.href = "/../dashboard/dashboard.html"; // redirect after login
     } else {
       message.textContent = data.message;
       message.className = "error";

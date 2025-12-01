@@ -1,24 +1,32 @@
 const express = require("express");
+const session = require("express-session");
 const path = require("path");
-const loginHandler = require("./api/login_handler"); // if you already made this
+const loginHandler = require("./controllers/loginController");
 
 const app = express();
 const PORT = 3000;
 
-// parse JSON bodies
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "views")));
 
-// serve static files from /public
-app.use(express.static(path.join(__dirname, "public")));
-
-// when user goes to "/", send login.html
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
-});
+app.use(session({
+  secret: "mySecretKey",      // change in production
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 3600000 } // 1 hour
+}));
 
 // login API
-app.post("/api/login", loginHandler); // or put handler inline if you prefer
+app.post("/controllers", loginHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+// protect dashboard
+app.get("/dashboard", (req, res) => {
+  if (!req.session.loggedIn) {
+    return res.redirect("/views/pages/login/login.html");
+  }
+  res.sendFile(path.join(__dirname, "/views/pages/dashboard/dashboard.html"));
 });
+
+app.listen(PORT, () =>
+  console.log(`Server running → http://localhost:${PORT}`)
+);
