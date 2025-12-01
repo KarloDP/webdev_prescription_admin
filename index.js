@@ -1,32 +1,33 @@
-const express = require("express");
-const session = require("express-session");
-const path = require("path");
-const loginHandler = require("./controllers/loginController");
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-const PORT = 3000;
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "views")));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: "mySecretKey",      // change in production
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 3600000 } // 1 hour
-}));
+// 👇 Serve static files FIRST
+app.use(express.static(path.join(__dirname, 'public')));
 
-// login API
-app.post("/controllers", loginHandler);
-
-// protect dashboard
-app.get("/dashboard", (req, res) => {
-  if (!req.session.loggedIn) {
-    return res.redirect("/views/pages/login/login.html");
-  }
-  res.sendFile(path.join(__dirname, "/views/pages/dashboard/dashboard.html"));
-});
-
-app.listen(PORT, () =>
-  console.log(`Server running → http://localhost:${PORT}`)
+app.use(
+  session({
+    secret: 'supersecretkey',
+    resave: false,
+    saveUninitialized: false
+  })
 );
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Your routes AFTER static
+app.use('/', authRoutes);
+
+// Default redirect to /login
+app.get('/', (req, res) => res.redirect('/login'));
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
