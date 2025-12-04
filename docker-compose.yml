@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    container_name: prescription_admin
+    ports:
+      - "${HOST_PORT:-8080}:8080"
+    environment:
+      PORT: ${PORT:-8080}
+      DB_HOST: ${DB_HOST:-host.docker.internal}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_USER: ${DB_USER:-root}
+      DB_PASS: ${DB_PASS:-}
+      DB_NAME: ${DB_NAME:-webdev_prescription}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # safe, helps on Linux; harmless on Docker Desktop
+    restart: unless-stopped

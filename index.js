@@ -27,7 +27,23 @@ app.use('/', authRoutes);
 // Default redirect to /login
 app.get('/', (req, res) => res.redirect('/login'));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 8080;
+
+app.use((err, req, res, next) => {
+  console.error('\n🔥 SERVER ERROR:', err.stack); // full stack trace
+  res.status(500).send(`
+    <h2>Server Error</h2>
+    <pre>${err.stack}</pre>
+  `);
+});
+
+app.use((req, res) => {
+  res.status(404).send(`
+    <h2>404 - Page Not Found</h2>
+    <p>URL: ${req.originalUrl}</p>
+  `);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
