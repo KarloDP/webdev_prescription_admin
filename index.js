@@ -1,7 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+
 const authRoutes = require('./routes/authRoutes');
+const patientRoutes = require('./routes/patientRoutes');
 
 const app = express();
 
@@ -22,7 +24,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Your routes AFTER static
+
 app.use('/', authRoutes);
+app.use('/patients', patientRoutes);
 
 // Default redirect to /login
 app.get('/', (req, res) => res.redirect('/login'));
