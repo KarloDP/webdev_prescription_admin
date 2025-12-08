@@ -2,35 +2,32 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const authRoutes = require('./routes/authRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-
-// 👇 Serve static files FIRST
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-  session({
-    secret: 'supersecretkey',
-    resave: false,
-    saveUninitialized: false
-  })
-);
+app.use(session({
+  secret: 'supersecretkey',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Your routes AFTER static
-app.use('/', authRoutes);
 
-// Default redirect to /login
+app.use('/', authRoutes);
+app.use('/', doctorRoutes);
+
 app.get('/', (req, res) => res.redirect('/login'));
 
 const PORT = process.env.PORT || 8080;
 
 app.use((err, req, res, next) => {
-  console.error('\n🔥 SERVER ERROR:', err.stack); // full stack trace
+  console.error('\n🔥 SERVER ERROR:', err.stack);
   res.status(500).send(`
     <h2>Server Error</h2>
     <pre>${err.stack}</pre>
