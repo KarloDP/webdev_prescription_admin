@@ -6,3 +6,5 @@ CREATING THE IMAGE:
 docker build -t karlo/webdev-admin:1.0 .
 RUNNING THE IMAGE:
 docker run -d --name webdev-admin -p 8080:8080 karlo/webdev-admin:1.0
+
+*use sudo if running in ubuntu
