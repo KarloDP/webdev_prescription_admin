@@ -25,7 +25,7 @@ async function showDoctors(req, res, next) {
           <td>${doc.status}</td>
           <td>
             ${doc.status === 'pending' ? `
-              <form method="POST" action="/doctors/accept">
+              <form method="POST" action="/doctors/accept" style="display:inline;">
                 <input type="hidden" name="doctorID" value="${doc.doctorID}">
                 <button type="submit">Accept</button>
               </form>
@@ -70,7 +70,6 @@ async function showDoctors(req, res, next) {
   }
 }
 
-
 async function acceptDoctor(req, res, next) {
   try {
     const { doctorID } = req.body;
@@ -93,8 +92,32 @@ async function addDoctor(req, res, next) {
   }
 }
 
+async function deactivateDoctor(req, res, next) {
+  try {
+    const { doctorID } = req.body;
+    await Doctor.deactivateDoctor(doctorID);
+    res.redirect('/doctors');
+  } catch (err) {
+    console.error('Doctor Deactivate Error:', err);
+    next(err);
+  }
+}
+
+async function deleteDoctor(req, res, next) {
+  try {
+    const { doctorID } = req.body;
+    await Doctor.deleteDoctor(doctorID);
+    res.redirect('/doctors');
+  } catch (err) {
+    console.error('Doctor Delete Error:', err);
+    next(err);
+  }
+}
+
 module.exports = {
   showDoctors,
   acceptDoctor,
-  addDoctor
+  addDoctor,
+  deactivateDoctor,
+  deleteDoctor
 };

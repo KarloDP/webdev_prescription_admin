@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { showDoctors, acceptDoctor, addDoctor } = require('../controllers/doctorController');
+
+// Imports ALL controller functions
+const {
+  showDoctors,
+  acceptDoctor,
+  addDoctor,
+  deactivateDoctor,
+  deleteDoctor
+} = require('../controllers/doctorController');
 
 // Show all doctors
 router.get('/doctors', showDoctors);
@@ -10,5 +18,11 @@ router.post('/doctors/accept', acceptDoctor);
 
 // Add new doctor
 router.post('/doctors/add', addDoctor);
+
+// Deactivate doctor
+router.post('/doctors/deactivate', deactivateDoctor);
+
+// Delete doctor
+router.post('/doctors/delete', deleteDoctor);
 
 module.exports = router;

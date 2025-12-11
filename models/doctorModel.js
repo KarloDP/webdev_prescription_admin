@@ -15,11 +15,19 @@ const Doctor = {
     await pool.query('UPDATE doctor SET status = "active" WHERE doctorID = ?', [doctorID]);
   },
 
+  async deactivateDoctor(doctorID) {
+    await pool.query('UPDATE doctor SET status = "pending" WHERE doctorID = ?', [doctorID]);
+  },
+
+  async deleteDoctor(doctorID) {
+    await pool.query('DELETE FROM doctor WHERE doctorID = ?', [doctorID]);
+  },
+
   async addDoctor({ firstName, lastName, password, specialization, licenseNumber, email, clinicAddress }) {
     await pool.query(
       `INSERT INTO doctor
        (firstName, lastName, password, specialization, licenseNumber, email, clinicAddress, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, "active")`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, "pending")`,
       [firstName, lastName, password, specialization, licenseNumber, email, clinicAddress]
     );
   }
