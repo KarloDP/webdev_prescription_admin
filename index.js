@@ -5,6 +5,7 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
+const pharmacyRoutes = require('./routes/pharmacyRoutes');
 
 const app = express();
 
@@ -20,10 +21,10 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Your routes AFTER static
 app.use('/', authRoutes);
 app.use('/patients', patientRoutes);
 app.use('/', doctorRoutes);
+app.use('/', pharmacyRoutes);
 
 app.get('/', (req, res) => res.redirect('/login'));
 
