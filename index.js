@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const pharmacyRoutes = require('./routes/pharmacyRoutes');
+const medicationRoutes = require('./routes/medicationRoutes');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/', authRoutes);
 app.use('/patients', patientRoutes);
 app.use('/', doctorRoutes);
 app.use('/', pharmacyRoutes);
+app.use('/', medicationRoutes);
 
 app.get('/', (req, res) => res.redirect('/login'));
 
