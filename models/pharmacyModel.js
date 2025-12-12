@@ -6,19 +6,31 @@ const Pharmacy = {
     return rows;
   },
 
-  async addPharmacy({ name, address, contactNumber }) {
+  async addPharmacy({ name, password, address, contactNumber, email, clinicAddress }) {
     await pool.query(
-      `INSERT INTO pharmacy (name, address, contactNumber, status)
-       VALUES (?, ?, ?, "active")`,
-      [name, address, contactNumber]
+      `INSERT INTO pharmacy (name, password, address, contactNumber, email, clinicAddress, status)
+       VALUES (?, ?, ?, ?, ?, ?, "pending")`,
+      [name, password, address, contactNumber, email, clinicAddress]
     );
   },
 
-  async deactivatePharmacy(pharmacyID) {
+  async approve(pharmacyID) {
+    await pool.query('UPDATE pharmacy SET status = "active" WHERE pharmacyID = ?', [pharmacyID]);
+  },
+
+  async deny(pharmacyID) {
+    await pool.query('DELETE FROM pharmacy WHERE pharmacyID = ?', [pharmacyID]);
+  },
+
+  async deactivate(pharmacyID) {
     await pool.query('UPDATE pharmacy SET status = "inactive" WHERE pharmacyID = ?', [pharmacyID]);
   },
 
-  async deletePharmacy(pharmacyID) {
+  async activate(pharmacyID) {
+    await pool.query('UPDATE pharmacy SET status = "active" WHERE pharmacyID = ?', [pharmacyID]);
+  },
+
+  async delete(pharmacyID) {
     await pool.query('DELETE FROM pharmacy WHERE pharmacyID = ?', [pharmacyID]);
   }
 };
