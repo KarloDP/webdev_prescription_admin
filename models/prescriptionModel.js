@@ -1,13 +1,15 @@
 const pool = require('../config/db');
 
 const Prescription = {
+  // Get all prescriptions
   async getAll() {
     const [rows] = await pool.query(`
       SELECT pr.prescriptionID, pr.issueDate, pr.expirationDate, pr.status,
              CONCAT(p.firstName, ' ', p.lastName) AS patientName,
              CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
              GROUP_CONCAT(
-               CONCAT(m.brandName, ' (', pi.dosage, ', ', pi.frequency, ', ', pi.duration, ')')
+               CONCAT(m.brandName, ' / ', m.genericName,
+                      ' (', pi.dosage, ', ', pi.frequency, ', ', pi.duration, ')')
                SEPARATOR '; '
              ) AS medications
       FROM prescription pr
@@ -21,13 +23,15 @@ const Prescription = {
     return rows;
   },
 
+  // Search prescriptions by patient, doctor, brandName, or genericName
   async searchByName(searchTerm) {
-    let sql = `
+    const sql = `
       SELECT pr.prescriptionID, pr.issueDate, pr.expirationDate, pr.status,
              CONCAT(p.firstName, ' ', p.lastName) AS patientName,
              CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
              GROUP_CONCAT(
-               CONCAT(m.brandName, ' (', pi.dosage, ', ', pi.frequency, ', ', pi.duration, ')')
+               CONCAT(m.brandName, ' / ', m.genericName,
+                      ' (', pi.dosage, ', ', pi.frequency, ', ', pi.duration, ')')
                SEPARATOR '; '
              ) AS medications
       FROM prescription pr
@@ -38,11 +42,12 @@ const Prescription = {
       WHERE CONCAT(p.firstName, ' ', p.lastName) LIKE ?
          OR CONCAT(d.firstName, ' ', d.lastName) LIKE ?
          OR m.brandName LIKE ?
+         OR m.genericName LIKE ?
       GROUP BY pr.prescriptionID
       ORDER BY pr.issueDate DESC
     `;
     const likeTerm = `%${searchTerm}%`;
-    const [rows] = await pool.query(sql, [likeTerm, likeTerm, likeTerm]);
+    const [rows] = await pool.query(sql, [likeTerm, likeTerm, likeTerm, likeTerm]);
     return rows;
   }
 };
