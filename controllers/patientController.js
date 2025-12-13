@@ -1,32 +1,46 @@
-const patientModel = require('../models/patientModel');
+const Patient = require('../models/patient');
+
+async function deletePatient(req, res, next) {
+  try {
+    const { patientID } = req.body;
+    await Patient.deletePatient(patientID);
+    res.redirect('/patients');
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function addPatient(req, res, next) {
+  try {
+    const { firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID } = req.body;
+    await Patient.addPatient({ firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID });
+    res.redirect('/patients');
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function showPatients(req, res, next) {
+  try {
+    const [ 
+      patients 
+    ] = await Promise.all([
+      Patient.getAll()
+    ]);
+
+    const table = [
+      {name : 'Patients',              count: patients.length,            link: '/patients'} 
+    ];
+
+    res.render('pages/patients', { patients, table });
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
-  async getAllPatients(req, res) {
-    try {
-      const patients = await patientModel.getAll();
-      res.render('pages/patients', { patients });
-    } catch (err) {
-      res.status(500).send('Error fetching patients');
-    }
-  },
-
-  async addPatient(req, res) {
-    try {
-      const patientData = req.body;
-      await patientModel.add(patientData);
-      res.redirect('/patients');
-    } catch (err) {
-      res.status(500).send('Error adding patient');
-    }
-  },
-
-  async deletePatient(req, res) {
-    try {
-      const { patientID } = req.body;
-      await patientModel.delete(patientID);
-      res.redirect('/patients');
-    } catch (err) {
-      res.status(500).send('Error deleting patient');
-    }
-  }
+  showPatients,
+  addPatient,
+  deletePatient
 };
+   
