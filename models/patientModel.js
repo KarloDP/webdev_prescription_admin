@@ -1,23 +1,29 @@
-
 const pool = require('../config/db');
 
 const Patient = {
   async getAll() {
-    const [rows] = await pool.query('SELECT * FROM patient');
+    const [rows] = await pool.query('Select * FROM patient');
     return rows;
   },
 
-  async add(data) {
-    const { firstName, lastName, password, birthDate, gender, contactNumber, address, email } = data;
-    await pool.query(
-      'INSERT INTO patient (firstName, lastName, password, birthDate, gender, contactNumber, address, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [firstName, lastName, password, birthDate, gender, contactNumber, address, email]
-    );
+  async getByPatientID(patientID) {
+    const [rows] = await pool.query('SELECT * FROM patient WHERE patientID = ?', [patientID]);
+    return rows;
   },
 
-  async delete(patientID) {
+  async deletePatient (patientID) {
     await pool.query('DELETE FROM patient WHERE patientID = ?', [patientID]);
+  },
+
+  async addPatient ({ firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID }) {
+    await pool.query(
+      `INSERT INTO patient
+       (firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID]
+    );
   }
+
 };
 
-module.exports = Patient;
+  module.exports = Patient;

@@ -3,7 +3,6 @@ const session = require('express-session');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
-const patientRoutes = require('./routes/patientRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const pharmacyRoutes = require('./routes/pharmacyRoutes');
 const medicationRoutes = require('./routes/medicationRoutes');
@@ -23,7 +22,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use('/', authRoutes);
-app.use('/patients', patientRoutes);
 app.use('/', doctorRoutes);
 app.use('/', pharmacyRoutes);
 app.use('/', medicationRoutes);
