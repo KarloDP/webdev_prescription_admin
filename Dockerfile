@@ -24,7 +24,7 @@ ENV NODE_ENV=production
 ENV PORT=8080
 # DB envs should be passed via docker run / compose, example: DB_HOST, DB_USER, DB_PASS, DB_NAME
 
-EXPOSE 8080
+EXPOSE 3307
 
 # Optional: enable source maps for better stack traces in production if you generate them
 CMD ["node", "--enable-source-maps", "index.js"]
