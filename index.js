@@ -30,7 +30,7 @@ app.use('/', prescriptionRoutes);
 
 app.get('/', (req, res) => res.redirect('/login'));
 
-const PORT = process.env.PORT || 3307;
+const PORT = process.env.PORT || 8080;
 
 app.use((err, req, res, next) => {
   console.error('\n🔥 SERVER ERROR:', err.stack);
