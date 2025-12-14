@@ -21,7 +21,7 @@ USER node
 
 # Environment defaults (override at runtime)
 ENV NODE_ENV=production
-ENV PORT=8080
+ENV PORT=3307
 # DB envs should be passed via docker run / compose, example: DB_HOST, DB_USER, DB_PASS, DB_NAME
 
 EXPOSE 3307
