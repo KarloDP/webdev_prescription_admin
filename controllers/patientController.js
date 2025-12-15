@@ -1,4 +1,4 @@
-const Patient = require('../models/patient');
+const Patient = require('../models/patientModel');
 
 async function deletePatient(req, res, next) {
   try {
