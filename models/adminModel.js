@@ -26,7 +26,7 @@ const Admin = {
   },
 
   async acceptAdmin(adminID) {
-    await pool.query('UPDATE admins SET status = "accepted" WHERE adminID = ?', [adminID]);
+    await pool.query('UPDATE admins SET status = "active" WHERE adminID = ?', [adminID]);
   },
 
   async rejectAdmin(adminID) {
