@@ -4,6 +4,7 @@ const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
+const patientRoutes = require('./routes/patientRoutes');
 const pharmacyRoutes = require('./routes/pharmacyRoutes');
 const medicationRoutes = require('./routes/medicationRoutes');
 const prescriptionRoutes = require('./routes/prescriptionRoutes');
@@ -24,6 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use('/', authRoutes);
 app.use('/', doctorRoutes);
+app.use('/', patientRoutes);
 app.use('/', pharmacyRoutes);
 app.use('/', medicationRoutes);
 app.use('/', prescriptionRoutes);
