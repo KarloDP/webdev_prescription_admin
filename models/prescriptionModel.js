@@ -49,6 +49,22 @@ const Prescription = {
     const likeTerm = `%${searchTerm}%`;
     const [rows] = await pool.query(sql, [likeTerm, likeTerm, likeTerm, likeTerm]);
     return rows;
+  },
+
+  // Get dispense history for a specific prescription
+  async getDispenseHistory(prescriptionID) {
+    const [rows] = await pool.query(`
+      SELECT dr.dispenseID, dr.dispenseDate, dr.dispensedQuantity,
+             m.brandName, m.genericName,
+             ph.name AS pharmacyName
+      FROM dispenserecord dr
+      JOIN prescriptionitem pi ON dr.prescriptionItemID = pi.prescriptionItemID
+      JOIN medication m ON pi.medicationID = m.medicationID
+      JOIN pharmacy ph ON dr.pharmacyID = ph.pharmacyID
+      WHERE pi.prescriptionID = ?
+      ORDER BY dr.dispenseDate DESC
+    `, [prescriptionID]);
+    return rows;
   }
 };
 
