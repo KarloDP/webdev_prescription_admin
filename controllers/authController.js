@@ -43,6 +43,7 @@ async function showDashboard(req, res, next) {
   try {
     if (!req.session.admin) return res.redirect('/login');
 
+    // Fetch all data in parallel
     const [
       admins,
       doctors,
@@ -63,6 +64,7 @@ async function showDashboard(req, res, next) {
       DispenseRecord.getAll()
     ]);
 
+    // Build tables array with counts
     const tables = [
       { name: 'Admins',              count: admins.length,            link: '/admins' },
       { name: 'Doctors',             count: doctors.length,           link: '/doctors' },
@@ -74,6 +76,7 @@ async function showDashboard(req, res, next) {
       { name: 'Dispense Records',    count: dispenseRecords.length,   link: '/dispense-records' }
     ];
 
+    // Render dashboard with admin info and tables
     res.render('pages/dashboard/dashboard', {
       admin: req.session.admin,
       tables
