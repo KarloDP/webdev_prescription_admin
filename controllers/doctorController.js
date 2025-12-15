@@ -2,68 +2,14 @@ const Doctor = require('../models/doctorModel');
 
 async function showDoctors(req, res, next) {
   try {
-    const doctors = await Doctor.getAll();
-
-    let html = `
-      <h1>Doctors</h1>
-      <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Email</th><th>Specialization</th><th>Status</th><th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    doctors.forEach(doc => {
-      html += `
-        <tr>
-          <td>${doc.doctorID}</td>
-          <td>${doc.firstName} ${doc.lastName}</td>
-          <td>${doc.email}</td>
-          <td>${doc.specialization}</td>
-          <td>${doc.status}</td>
-          <td>
-            ${doc.status === 'pending' ? `
-              <form method="POST" action="/doctors/accept" style="display:inline;">
-                <input type="hidden" name="doctorID" value="${doc.doctorID}">
-                <button type="submit">Accept</button>
-              </form>
-            ` : `
-              <form method="POST" action="/doctors/deactivate" style="display:inline;">
-                <input type="hidden" name="doctorID" value="${doc.doctorID}">
-                <button type="submit">Deactivate</button>
-              </form>
-              <form method="POST" action="/doctors/delete" style="display:inline;">
-                <input type="hidden" name="doctorID" value="${doc.doctorID}">
-                <button type="submit">Delete</button>
-              </form>
-            `}
-          </td>
-        </tr>
-      `;
-    });
-
-    html += `
-        </tbody>
-      </table>
-
-      <h2>Add New Doctor</h2>
-      <form method="POST" action="/doctors/add">
-        <input type="text" name="firstName" placeholder="First Name" required><br>
-        <input type="text" name="lastName" placeholder="Last Name" required><br>
-        <input type="text" name="password" placeholder="Password" required><br>
-        <input type="text" name="specialization" placeholder="Specialization" required><br>
-        <input type="number" name="licenseNumber" placeholder="License Number" required><br>
-        <input type="email" name="email" placeholder="Email" required><br>
-        <input type="text" name="clinicAddress" placeholder="Clinic Address" required><br>
-        <button type="submit">Add Doctor</button>
-      </form>
-
-      <br><a href="/dashboard">Back to Dashboard</a>
-    `;
-
-    res.send(html);
+    const { name, specialization, status } = req.query;
+    let doctors;
+    if (name || specialization || status) {
+      doctors = await Doctor.search({ name, specialization, status });
+    } else {
+      doctors = await Doctor.getAll();
+    }
+    res.render('pages/doctors', { doctors, name, specialization, status });
   } catch (err) {
     console.error('Doctor Error:', err);
     next(err);

@@ -1,7 +1,6 @@
 const pool = require('../config/db');
 
 const DispenseRecord = {
-  // Get all dispense records
   async getAll() {
     const [rows] = await pool.query(`
       SELECT dr.dispenseID, dr.dispenseDate, dr.dispensedQuantity,
@@ -17,7 +16,6 @@ const DispenseRecord = {
     return rows;
   },
 
-  // Get dispense records for a specific prescription
   async getByPrescription(prescriptionID) {
     const [rows] = await pool.query(`
       SELECT dr.dispenseID, dr.dispenseDate, dr.dispensedQuantity,
@@ -34,4 +32,33 @@ const DispenseRecord = {
   }
 };
 
+async search({ prescriptionID, medication, pharmacy }) {
+    let query = `
+      SELECT dr.dispenseID, dr.dispenseDate, dr.dispensedQuantity,
+             pi.prescriptionID,
+             m.brandName, m.genericName,
+             ph.name AS pharmacyName
+      FROM dispenserecord dr
+      JOIN prescriptionitem pi ON dr.prescriptionItemID = pi.prescriptionItemID
+      JOIN medication m ON pi.medicationID = m.medicationID
+      JOIN pharmacy ph ON dr.pharmacyID = ph.pharmacyID
+      WHERE 1=1`;
+    const params = [];
+    if (prescriptionID) {
+      query += ' AND pi.prescriptionID = ?';
+      params.push(prescriptionID);
+    }
+    if (medication) {
+      query += ' AND (m.brandName LIKE ? OR m.genericName LIKE ?)';
+      params.push(`%${medication}%`, `%${medication}%`);
+    }
+    if (pharmacy) {
+      query += ' AND ph.name LIKE ?';
+      params.push(`%${pharmacy}%`);
+    }
+    query += ' ORDER BY dr.dispenseDate DESC';
+    const [rows] = await pool.query(query, params);
+    return rows;
+  },
+  
 module.exports = DispenseRecord;

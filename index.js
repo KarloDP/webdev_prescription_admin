@@ -10,6 +10,7 @@ const pharmacyRoutes = require('./routes/pharmacyRoutes');
 const medicationRoutes = require('./routes/medicationRoutes');
 const prescriptionRoutes = require('./routes/prescriptionRoutes');
 const dispenseRecordRoutes = require('./routes/dispenseRecordRoutes');
+const prescriptionItemRoutes = require('./routes/prescriptionItemRoutes');
 
 const app = express();
 
@@ -32,7 +33,8 @@ app.use('/', patientRoutes);
 app.use('/', pharmacyRoutes);
 app.use('/', medicationRoutes);
 app.use('/', prescriptionRoutes);
-app.use('/', dispenseRecordRoutes); // <-- mount here
+app.use('/', dispenseRecordRoutes);
+app.use('/', prescriptionItemRoutes);
 
 
 app.get('/', (req, res) => res.redirect('/login'));
