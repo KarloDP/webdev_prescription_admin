@@ -1,9 +1,12 @@
+const dashboardController = require('./controllers/dashboardController');
+app.get('/dashboard', dashboardController.showDashboard);
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
+const adminRoutes = require('./routes/adminRoute');
 const patientRoutes = require('./routes/patientRoutes');
 const pharmacyRoutes = require('./routes/pharmacyRoutes');
 const medicationRoutes = require('./routes/medicationRoutes');
@@ -25,6 +28,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use('/', authRoutes);
 app.use('/', doctorRoutes);
+app.use('/', adminRoutes);
 app.use('/', patientRoutes);
 app.use('/', pharmacyRoutes);
 app.use('/', medicationRoutes);
