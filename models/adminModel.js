@@ -5,7 +5,7 @@ const Admin = {
   async getAll() {
 
     const [rows] = await pool.query(
-      'SELECT adminID, firstName, lastName FROM admins WHERE status = "accepted"'
+      'SELECT adminID, firstName, lastName FROM admins WHERE status = "active"'
     );
     return rows;
   },
