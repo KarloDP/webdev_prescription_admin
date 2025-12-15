@@ -1,5 +1,3 @@
-const dashboardController = require('./controllers/dashboardController');
-app.get('/dashboard', dashboardController.showDashboard);
 const express = require('express');
 const session = require('express-session');
 const path = require('path');

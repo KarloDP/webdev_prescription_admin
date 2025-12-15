@@ -17,6 +17,7 @@ async function showDashboard(req, res, next) {
     ]);
 
     const tables = [
+      { name: 'Admins', count: adminCount, link: '/admins' },
       { name: 'Doctors', count: doctorCount, link: '/doctors' },
       { name: 'Patients', count: patientCount, link: '/patients' },
       { name: 'Pharmacies', count: pharmacyCount, link: '/pharmacies' },

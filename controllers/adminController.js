@@ -24,21 +24,6 @@ async function showAdmins(req, res, next) {
   }
 }
 
-
-// showPendingAdmins is now handled by showAdmins with query param
-
-
-async function addPendingAdmin(req, res, next) {
-  try {
-    const { firstName, lastName, password } = req.body;
-    await Admin.addPendingAdmin({ firstName, lastName, password });
-    res.redirect('/admins/pending');
-  } catch (err) {
-    console.error('Admin Add Error:', err);
-    next(err);
-  }
-}
-
 async function acceptAdmin(req, res, next) {
   try {
     const { adminID } = req.body;
@@ -46,6 +31,17 @@ async function acceptAdmin(req, res, next) {
     res.redirect('/admins/pending');
   } catch (err) {
     console.error('Admin Accept Error:', err);
+    next(err);
+  }
+}
+
+async function rejectAdmin(req, res, next) {
+  try {
+    const { adminID } = req.body;
+    await Admin.rejectAdmin(adminID);
+    res.redirect('/admins?pending=1');
+  } catch (err) {
+    console.error('Admin Reject Error:', err);
     next(err);
   }
 }
@@ -68,8 +64,7 @@ async function deleteAdmin(req, res, next) {
 
 module.exports = {
   showAdmins,
-  showPendingAdmins,
-  addPendingAdmin,
   acceptAdmin,
+  rejectAdmin,
   deleteAdmin
 };
