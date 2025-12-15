@@ -9,6 +9,7 @@ const patientRoutes = require('./routes/patientRoutes');
 const pharmacyRoutes = require('./routes/pharmacyRoutes');
 const medicationRoutes = require('./routes/medicationRoutes');
 const prescriptionRoutes = require('./routes/prescriptionRoutes');
+const dispenseRecordRoutes = require('./routes/dispenseRecordRoutes');
 
 const app = express();
 
@@ -31,10 +32,13 @@ app.use('/', patientRoutes);
 app.use('/', pharmacyRoutes);
 app.use('/', medicationRoutes);
 app.use('/', prescriptionRoutes);
+app.use('/', dispenseRecordRoutes); // <-- mount here
+
 
 app.get('/', (req, res) => res.redirect('/login'));
 
 const PORT = process.env.PORT || 8080;
+
 
 app.use((err, req, res, next) => {
   console.error('\n🔥 SERVER ERROR:', err.stack);
@@ -43,6 +47,7 @@ app.use((err, req, res, next) => {
     <pre>${err.stack}</pre>
   `);
 });
+
 
 app.use((req, res) => {
   res.status(404).send(`
