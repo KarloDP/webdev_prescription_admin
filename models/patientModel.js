@@ -15,12 +15,12 @@ const Patient = {
     await pool.query('DELETE FROM patient WHERE patientID = ?', [patientID]);
   },
 
-  async addPatient ({ firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID }) {
+  async addPatient ({ firstName, lastName, password, birthDate, email, gender, contactNumber, address, doctorID }) {
     await pool.query(
       `INSERT INTO patient
-       (firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID]
+       (firstName, lastName, password, birthDate, email, gender, contactNumber, address, doctorID)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [firstName, lastName, password, birthDate, email, gender, contactNumber, address, doctorID]
     );
   }
 

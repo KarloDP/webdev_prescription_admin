@@ -12,8 +12,8 @@ async function deletePatient(req, res, next) {
 
 async function addPatient(req, res, next) {
   try {
-    const { firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID } = req.body;
-    await Patient.addPatient({ firstName, lastName, password, dateOfBirth, email, phoneNumber, address, doctorID });
+    const { firstName, lastName, password, birthDate, email, gender, contactNumber, address, doctorID } = req.body;
+    await Patient.addPatient({ firstName, lastName, password, birthDate, email, gender, contactNumber, address, doctorID });
     res.redirect('/patients');
   } catch (err) {
     next(err);
