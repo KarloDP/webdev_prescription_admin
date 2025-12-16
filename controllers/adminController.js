@@ -1,7 +1,5 @@
 const Admin = require('../models/adminModel');
 
-
-
 async function showAdmins(req, res, next) {
   try {
     const showPending = req.query.pending === '1';
@@ -28,7 +26,7 @@ async function acceptAdmin(req, res, next) {
   try {
     const { adminID } = req.body;
     await Admin.acceptAdmin(adminID);
-    res.redirect('/admins/pending');
+    res.redirect('/admins?pending=1');
   } catch (err) {
     console.error('Admin Accept Error:', err);
     next(err);
