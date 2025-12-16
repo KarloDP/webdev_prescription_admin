@@ -30,26 +30,24 @@ const Doctor = {
        VALUES (?, ?, ?, ?, ?, ?, ?, "pending")`,
       [firstName, lastName, password, specialization, licenseNumber, email, clinicAddress]
     );
-  }
-};
-
-async search({ name, specialization, status }) {
-    let query = 'SELECT * FROM doctor WHERE 1=1';
-    const params = [];
-    if (name) {
-      query += ' AND (firstName LIKE ? OR lastName LIKE ?)';
-      params.push(`%${name}%`, `%${name}%`);
-    }
-    if (specialization) {
-      query += ' AND specialization LIKE ?';
-      params.push(`%${specialization}%`);
-    }
-    if (status) {
-      query += ' AND status = ?';
-      params.push(status);
-    }
-    const [rows] = await pool.query(query, params);
-    return rows;
   },
-
+  async search({ name, specialization, status }) {
+      let query = 'SELECT * FROM doctor WHERE 1=1';
+      const params = [];
+      if (name) {
+        query += ' AND (firstName LIKE ? OR lastName LIKE ?)';
+        params.push(`%${name}%`, `%${name}%`);
+      }
+      if (specialization) {
+        query += ' AND specialization LIKE ?';
+        params.push(`%${specialization}%`);
+      }
+      if (status) {
+        query += ' AND status = ?';
+        params.push(status);
+      }
+      const [rows] = await pool.query(query, params);
+      return rows;
+    },
+  };
 module.exports = Doctor;
