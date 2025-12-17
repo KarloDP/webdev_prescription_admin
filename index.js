@@ -11,6 +11,7 @@ const medicationRoutes = require('./routes/medicationRoutes');
 const prescriptionRoutes = require('./routes/prescriptionRoutes');
 const dispenseRecordRoutes = require('./routes/dispenseRecordRoutes');
 const prescriptionItemRoutes = require('./routes/prescriptionItemRoutes');
+const prescriptionHistoryRoutes = require('./routes/prescriptionHistoryRoutes');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/', medicationRoutes);
 app.use('/', prescriptionRoutes);
 app.use('/', dispenseRecordRoutes);
 app.use('/', prescriptionItemRoutes);
+app.use('/', prescriptionHistoryRoutes);
 
 
 app.get('/', (req, res) => res.redirect('/login'));

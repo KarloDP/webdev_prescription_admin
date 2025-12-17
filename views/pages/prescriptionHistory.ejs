@@ -1,23 +1,25 @@
 <link rel="stylesheet" href="/css/prescriptionHistory.css">
 <h1>Dispense History for Prescription #<%= prescriptionID %></h1>
-<table border="1" cellpadding="8" cellspacing="0">
+<table>
   <thead>
     <tr>
       <th>ID</th><th>Date Dispensed</th><th>Medication</th><th>Quantity</th><th>Pharmacy</th>
     </tr>
   </thead>
   <tbody>
-    <% history.forEach(h => { %>
-      <tr>
-        <td><%= h.dispenseID %></td>
-        <td><%= h.dispenseDate %></td>
-        <td><%= h.brandName %></td>
-        <td><%= h.dispensedQuantity %></td>
-        <td><%= h.pharmacyName %></td>
-      </tr>
-    <% }) %>
+    <% if (history && history.length > 0) { %>
+      <% history.forEach(h => { %>
+        <tr>
+          <td data-label="ID"><%= h.dispenseID %></td>
+          <td data-label="Date Dispensed"><%= h.dispenseDate %></td>
+          <td data-label="Medication"><%= h.brandName %></td>
+          <td data-label="Quantity"><%= h.dispensedQuantity %></td>
+          <td data-label="Pharmacy"><%= h.pharmacyName %></td>
+        </tr>
+      <% }) %>
+    <% } else { %>
+      <tr><td colspan="5">No dispense history found.</td></tr>
+    <% } %>
   </tbody>
 </table>
-<a href="/dashboard" class="back-btn">Back to Dashboard</a>
-
-
+<a href="/prescriptions" class="back-btn">Back to Prescriptions</a>
