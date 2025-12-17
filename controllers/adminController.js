@@ -4,6 +4,7 @@ async function showAdmins(req, res, next) {
   try {
     const showPending = req.query.pending === '1';
     let admins, isPendingMode;
+
     if (showPending) {
       admins = await Admin.getPending();
       isPendingMode = true;
@@ -11,10 +12,13 @@ async function showAdmins(req, res, next) {
       admins = await Admin.getAll();
       isPendingMode = false;
     }
+
+    const currentAdminID = req.session.adminID ? Number(req.session.adminID) : null;
+
     res.render('pages/admins', {
       admins,
       isPendingMode,
-      currentAdminID: req.session.adminID
+      currentAdminID
     });
   } catch (err) {
     console.error('Admin Error:', err);
@@ -47,7 +51,7 @@ async function rejectAdmin(req, res, next) {
 async function deleteAdmin(req, res, next) {
   try {
     const { adminID } = req.body;
-    if (parseInt(adminID) !== req.session.adminID) {
+    if (Number(adminID) !== Number(req.session.adminID)) {
       return res.status(403).send('You can only delete your own account.');
     }
     await Admin.deleteAdmin(adminID);

@@ -1,20 +1,42 @@
-<h1>Dispense Records for Prescription #<%= prescriptionID %></h1>
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th><th>Date Dispensed</th><th>Medication</th><th>Quantity</th><th>Pharmacy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% records.forEach(r => { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dispense Records for Prescription #<%= prescriptionID %></title>
+  <link rel="stylesheet" href="/css/prescriptions.css"> 
+</head>
+<body>
+  <h1>Dispense Records for Prescription #<%= prescriptionID %></h1>
+
+  <!-- Records Table -->
+  <table>
+    <thead>
       <tr>
-        <td><%= r.dispenseID %></td>
-        <td><%= r.dispenseDate %></td>
-        <td><%= r.brandName %> / <%= r.genericName %></td>
-        <td><%= r.dispensedQuantity %></td>
-        <td><%= r.pharmacyName %></td>
+        <th>ID</th>
+        <th>Date Dispensed</th>
+        <th>Medication</th>
+        <th>Quantity</th>
+        <th>Pharmacy</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
-<br><a href="/prescriptions">Back to Prescriptions</a>
+    </thead>
+    <tbody>
+      <% if (records && records.length > 0) { %>
+        <% records.forEach(r => { %>
+          <tr>
+            <td data-label="ID"><%= r.dispenseID %></td>
+            <td data-label="Date Dispensed"><%= r.dispenseDate %></td>
+            <td data-label="Medication"><%= r.brandName %> / <%= r.genericName %></td>
+            <td data-label="Quantity"><%= r.dispensedQuantity %></td>
+            <td data-label="Pharmacy"><%= r.pharmacyName %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="5">No dispense records found for this prescription.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Back Button -->
+  <a href="/prescriptions" class="back-btn">Back to Prescriptions</a>
+</body>
+</html>

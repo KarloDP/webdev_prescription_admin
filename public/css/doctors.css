@@ -9,37 +9,51 @@ body {
   margin-right: auto;
 }
 
-h1 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+h1, h2 {
   color: #2c3e50;
+  margin-bottom: 1rem;
 }
 
-/* Buttons */
-button {
+h1 {
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+}
+
+form[method="get"] {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+form[method="get"] input,
+form[method="get"] select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+form[method="get"] button {
   background: #3498db;
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
-  margin: 0.2rem;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: background 0.3s ease;
   min-width: 120px;
-  text-align: center;
 }
 
-button:hover {
+form[method="get"] button:hover {
   background: #2980b9;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.4);
-}
-
-/* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -70,7 +84,52 @@ tbody tr:hover {
   background: #f9fcff;
 }
 
-/* Links styled as buttons */
+table button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+table button:hover {
+  background: #2980b9;
+}
+
+form[method="POST"] input {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+form[method="POST"] button {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+form[method="POST"] button:hover {
+  background: #1e8449;
+}
+
 a.back-btn {
   display: inline-block;
   margin-top: 1rem;
@@ -91,28 +150,15 @@ a.back-btn:hover {
   color: #fff;
 }
 
-a.logout-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: 1px solid #e74c3c;
-  text-decoration: none;
-  font-size: 0.9rem;
-  color: #e74c3c;
-  background: #fff;
-  transition: all 0.3s ease;
-  min-width: 120px;
-  text-align: center;
-}
-
-a.logout-btn:hover {
-  background: #e74c3c;
-  color: #fff;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
+  form[method="get"] {
+    flex-direction: column;
+  }
+
+  form[method="POST"] input {
+    max-width: 100%;
+  }
+
   table, thead, tbody, th, td, tr {
     display: block;
   }
@@ -143,9 +189,9 @@ a.logout-btn:hover {
     color: #555;
   }
 
-  button,
-  a.back-btn,
-  a.logout-btn {
+  table button,
+  form[method="POST"] button,
+  a.back-btn {
     width: 100%;
   }
 }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/doctors.css">
 <h1>Doctors</h1>
 <form method="get" action="/doctors" style="margin-bottom:16px;">
   <input type="text" name="name" placeholder="Name" value="<%= name || '' %>">
@@ -57,4 +58,5 @@
   <button type="submit">Add Doctor</button>
 </form>
 
-<br><a href="/dashboard">Back to Dashboard</a>
+<a href="/dashboard" class="back-btn">Back to Dashboard</a>
+

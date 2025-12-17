@@ -1,7 +1,9 @@
 body {
-  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background: linear-gradient(to right, #e3f2fd, #fce4ec);
   margin: 0;
+  padding: 2rem;
+  color: #333;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -19,18 +21,18 @@ body {
   box-sizing: border-box;
 }
 
-/* Header */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .greeting h1 {
   margin: 0;
-  font-size: 1.8rem;
-  color: #333;
+  font-size: 2rem;
+  color: #2c3e50;
 }
 
 .subtext {
@@ -40,61 +42,99 @@ body {
 }
 
 .logout-btn {
-  background: #ff5252;
+  background: #e74c3c;
   color: #fff;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 4px;
   text-decoration: none;
+  font-size: 0.9rem;
   font-weight: 500;
+  border: none;
+  cursor: pointer;
   transition: background 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+  display: inline-block;
 }
 
 .logout-btn:hover {
-  background: #e53935;
+  background: #c0392b;
 }
 
-/* Divider */
 .divider {
   margin: 2rem 0;
   border: none;
   border-top: 1px solid #ddd;
 }
 
-/* Cards Grid */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.5rem;
 }
 
-/* Card Styling */
 .card {
-  background: #fafafa;
+  background: #ffffff;
   padding: 1.25rem 1.5rem;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   text-align: center;
   transition: transform 0.2s ease;
+  border: 1px solid #eaeaea;
 }
 
 .card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.card-btn {
+.card h2 {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0.25rem 0;
+}
+
+.card-btn,
+.back-btn {
   display: inline-block;
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: 1px solid #1976d2;
+  border-radius: 4px;
+  border: 1px solid #3498db;
   text-decoration: none;
-  font-size: 0.95rem;
-  color: #1976d2;
+  font-size: 0.9rem;
+  color: #3498db;
   background: #fff;
   transition: all 0.3s ease;
+  min-width: 120px;
+  text-align: center;
 }
 
-.card-btn:hover {
-  background: #1976d2;
+.card-btn:hover,
+.back-btn:hover {
+  background: #3498db;
   color: #fff;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-btn,
+  .logout-btn,
+  .back-btn {
+    width: 100%;
+  }
 }

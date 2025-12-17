@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/prescriptions.css">
 <h1>Prescriptions</h1>
 <form method="GET" action="/prescriptions">
   <input type="text" name="name" placeholder="Search by Patient, Doctor, or Medication" value="<%= name || '' %>">
@@ -32,4 +33,4 @@
     <% }) %>
   </tbody>
 </table>
-<br><a href="/dashboard">Back to Dashboard</a>
+<a href="/dashboard" class="back-btn">Back to Dashboard</a>

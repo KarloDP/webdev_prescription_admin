@@ -30,7 +30,7 @@
               <input type="hidden" name="adminID" value="<%= admin.adminID %>">
               <button type="submit" onclick="return confirm('Are you sure you want to reject this admin?');">Reject</button>
             </form>
-          <% } else if (admin.adminID === currentAdminID) { %>
+          <% } else if (admin.adminID == currentAdminID) { %>
             <form method="POST" action="/admins/delete" style="display:inline;">
               <input type="hidden" name="adminID" value="<%= admin.adminID %>">
               <button type="submit">Delete My Account</button>
@@ -42,4 +42,6 @@
   </tbody>
 </table>
 
-<br><a href="/dashboard">Back to Dashboard</a>
+<a href="/dashboard" class="back-btn">Back to Dashboard</a>
+
+

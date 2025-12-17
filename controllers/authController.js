@@ -33,6 +33,7 @@ async function login(req, res, next) {
     }
 
     req.session.admin = admin;
+    req.session.adminID = admin.adminID;
     res.redirect('/dashboard');
   } catch (err) {
     next(err);
