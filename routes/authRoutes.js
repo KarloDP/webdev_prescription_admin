@@ -1,4 +1,3 @@
-// routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
 
@@ -10,16 +9,21 @@ const {
   registerAdmin
 } = require('../controllers/authController');
 
-// Routes
+// =======================
+// Authentication Routes
+// =======================
 router.get('/login', showLoginForm);
 router.post('/login', login);
 router.get('/dashboard', showDashboard);
 router.get('/logout', logout);
 
-// Registration routes
+// =======================
+// Registration Routes
+// =======================
 router.get('/register', (req, res) => {
   res.render('register', { error: null });
 });
+
 router.post('/register', registerAdmin);
 
 module.exports = router;

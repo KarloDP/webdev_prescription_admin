@@ -17,18 +17,28 @@ const Admin = {
 
   async getById(id) {
     const [rows] = await pool.query(
-      'SELECT adminID, firstName, lastName FROM admins WHERE adminID = ?',
+      'SELECT adminID, firstName, lastName, password, status FROM admins WHERE adminID = ?',
       [id]
     );
     return rows[0] || null;
   },
 
-  async registerAdmin({ firstName, lastName, email, password }) {
+  async registerAdmin({ firstName, lastName, password }) {
     await pool.query(
-      `INSERT INTO admins (firstName, lastName, email, password, status)
-       VALUES (?, ?, ?, ?, "pending")`,
-      [firstName, lastName, email, password]
+      `INSERT INTO admins (firstName, lastName, password, status)
+       VALUES (?, ?, ?, "pending")`,
+      [firstName, lastName, password]
     );
+  },
+
+  async verifyPassword(adminID, password) {
+    const [rows] = await pool.query(
+      `SELECT adminID, firstName, lastName, status
+       FROM admins
+       WHERE adminID = ? AND password = ? AND status = "active"`,
+      [adminID, password]
+    );
+    return rows[0] || null;
   },
 
   async acceptAdmin(adminID) {

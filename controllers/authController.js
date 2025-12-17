@@ -1,4 +1,3 @@
-// controllers/authController.js
 const Admin = require('../models/adminModel');
 const Doctor = require('../models/doctorModel');
 const Patient = require('../models/patientModel');
@@ -18,23 +17,23 @@ async function showLoginForm(req, res, next) {
   }
 }
 
-// Handle login
+// Handle login with password
 async function login(req, res, next) {
   try {
-    const { adminId } = req.body;
+    const { adminId, password } = req.body;
 
-    if (!adminId) {
+    if (!adminId || !password) {
       const admins = await Admin.getAll();
-      return res.render('login', { admins, error: 'Please select an admin.' });
+      return res.render('login', { admins, error: 'Admin and password are required.' });
     }
 
-    const admin = await Admin.getById(adminId);
+    const admin = await Admin.verifyPassword(adminId, password);
     if (!admin) {
       const admins = await Admin.getAll();
-      return res.render('login', { admins, error: 'Admin not found.' });
+      return res.render('login', { admins, error: 'Invalid credentials or inactive admin.' });
     }
 
-    // Only allow active admins to log in
+    // Save session
     req.session.admin = admin;
     req.session.adminID = admin.adminID;
     res.redirect('/dashboard');
@@ -102,13 +101,13 @@ function logout(req, res, next) {
 // Register new admin (pending status)
 async function registerAdmin(req, res, next) {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, password } = req.body;
 
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !password) {
       return res.render('register', { error: 'All fields are required.' });
     }
 
-    await Admin.registerAdmin({ firstName, lastName, email, password });
+    await Admin.registerAdmin({ firstName, lastName, password });
     res.redirect('/login');
   } catch (err) {
     console.error('Admin Register Error:', err);
