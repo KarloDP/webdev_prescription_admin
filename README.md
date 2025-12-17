@@ -17,5 +17,5 @@ admin end (when docker container is running) is accessible from:
 if running locally:
 localhost:8080
 
-if hosts file is configured on both machines:
-webdev-prescription.bytebusters/
+if hosts file is configured on both machines access the admin site from:
+webdev-prescription.bytebusters:8080
