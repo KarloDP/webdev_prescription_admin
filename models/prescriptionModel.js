@@ -1,7 +1,6 @@
 const pool = require('../config/db');
 
 const Prescription = {
-  // Get all prescriptions
   async getAll() {
     const [rows] = await pool.query(`
       SELECT pr.prescriptionID, pr.issueDate, pr.expirationDate, pr.status,
@@ -23,7 +22,6 @@ const Prescription = {
     return rows;
   },
 
-  // Flexible search by patient, doctor, medication, or status
   async search({ patient, doctor, medication, status }) {
     let query = `
       SELECT pr.prescriptionID, pr.issueDate, pr.expirationDate, pr.status,
@@ -65,7 +63,6 @@ const Prescription = {
     return rows;
   },
 
-  // Get dispense history for a specific prescription
   async getDispenseHistory(prescriptionID) {
     const [rows] = await pool.query(`
       SELECT dr.dispenseID, dr.dispenseDate, dr.dispensedQuantity,

@@ -1,9 +1,7 @@
 const pool = require('../config/db');
 
 const Admin = {
-
   async getAll() {
-
     const [rows] = await pool.query(
       'SELECT adminID, firstName, lastName FROM admins WHERE status = "active"'
     );
@@ -23,6 +21,14 @@ const Admin = {
       [id]
     );
     return rows[0] || null;
+  },
+
+  async registerAdmin({ firstName, lastName, email, password }) {
+    await pool.query(
+      `INSERT INTO admins (firstName, lastName, email, password, status)
+       VALUES (?, ?, ?, ?, "pending")`,
+      [firstName, lastName, email, password]
+    );
   },
 
   async acceptAdmin(adminID) {

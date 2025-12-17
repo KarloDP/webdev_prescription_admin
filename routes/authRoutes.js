@@ -6,20 +6,20 @@ const {
   showLoginForm,
   login,
   showDashboard,
-  logout
+  logout,
+  registerAdmin
 } = require('../controllers/authController');
-
-console.log('authController keys (in routes):', {
-  showLoginForm: typeof showLoginForm,
-  login: typeof login,
-  showDashboard: typeof showDashboard,
-  logout: typeof logout
-});
 
 // Routes
 router.get('/login', showLoginForm);
 router.post('/login', login);
 router.get('/dashboard', showDashboard);
 router.get('/logout', logout);
+
+// Registration routes
+router.get('/register', (req, res) => {
+  res.render('register', { error: null });
+});
+router.post('/register', registerAdmin);
 
 module.exports = router;

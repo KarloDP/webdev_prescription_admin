@@ -10,7 +10,6 @@ const {
 
 const { showDashboard } = require('../controllers/dashboardController');
 
-// Admin management routes
 router.get('/admins', showAdmins);
 router.post('/admins/accept', acceptAdmin);
 router.post('/admins/reject', rejectAdmin);

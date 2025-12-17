@@ -8,6 +8,7 @@ const Prescription = require('../models/prescriptionModel');
 const PrescriptionItem = require('../models/prescriptionItemModel');
 const DispenseRecord = require('../models/dispenseRecordModel');
 
+// Show login form
 async function showLoginForm(req, res, next) {
   try {
     const admins = await Admin.getAll();
@@ -17,6 +18,7 @@ async function showLoginForm(req, res, next) {
   }
 }
 
+// Handle login
 async function login(req, res, next) {
   try {
     const { adminId } = req.body;
@@ -32,6 +34,7 @@ async function login(req, res, next) {
       return res.render('login', { admins, error: 'Admin not found.' });
     }
 
+    // Only allow active admins to log in
     req.session.admin = admin;
     req.session.adminID = admin.adminID;
     res.redirect('/dashboard');
@@ -40,11 +43,11 @@ async function login(req, res, next) {
   }
 }
 
+// Show dashboard
 async function showDashboard(req, res, next) {
   try {
     if (!req.session.admin) return res.redirect('/login');
 
-    // Fetch all data in parallel
     const [
       admins,
       doctors,
@@ -65,7 +68,6 @@ async function showDashboard(req, res, next) {
       DispenseRecord.getAll()
     ]);
 
-    // Build tables array with counts
     const tables = [
       { name: 'Admins',              count: admins.length,            link: '/admins' },
       { name: 'Doctors',             count: doctors.length,           link: '/doctors' },
@@ -77,7 +79,6 @@ async function showDashboard(req, res, next) {
       { name: 'Dispense Records',    count: dispenseRecords.length,   link: '/dispense-records' }
     ];
 
-    // Render dashboard with admin info and tables
     res.render('pages/dashboard/dashboard', {
       admin: req.session.admin,
       tables
@@ -87,6 +88,7 @@ async function showDashboard(req, res, next) {
   }
 }
 
+// Handle logout
 function logout(req, res, next) {
   try {
     req.session.destroy(() => {
@@ -97,10 +99,28 @@ function logout(req, res, next) {
   }
 }
 
+// Register new admin (pending status)
+async function registerAdmin(req, res, next) {
+  try {
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.render('register', { error: 'All fields are required.' });
+    }
+
+    await Admin.registerAdmin({ firstName, lastName, email, password });
+    res.redirect('/login');
+  } catch (err) {
+    console.error('Admin Register Error:', err);
+    next(err);
+  }
+}
+
 // ✨ SINGLE CLEAR EXPORT ✨
 module.exports = {
   showLoginForm,
   login,
   showDashboard,
-  logout
+  logout,
+  registerAdmin
 };

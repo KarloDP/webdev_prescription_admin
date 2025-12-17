@@ -47,7 +47,7 @@ body {
 }
 
 /* ============================================
-   HEADER STYLES WITH LOGO
+   HEADER STYLES
    ============================================ */
 .login-header {
   text-align: center;
@@ -110,14 +110,8 @@ body {
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .alert-error {
@@ -157,88 +151,54 @@ body {
 }
 
 .form-group {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .form-label {
-  display: flex;
-  align-items: center;
+  display: block;
   font-size: 13px;
   font-weight: 600;
   color: #374151;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 12px;
-  gap: 8px;
-}
-
-.label-icon {
-  font-size: 16px;
-}
-
-.select-container {
-  position: relative;
   margin-bottom: 8px;
 }
 
-.select-container.focused select {
-  border-color: #0066FF;
-  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-}
-
-select {
+/* Inputs styled like search/filter */
+.login-form input[type="text"],
+.login-form input[type="email"],
+.login-form input[type="password"],
+.login-form select {
   width: 100%;
-  padding: 18px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #111827;
-  background: #ffffff;
-  border: 2px solid #d1d5db;
-  border-radius: 12px;
-  appearance: none;
-  cursor: pointer;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  min-width: 200px;
+  background: #fff;
   transition: all 0.2s ease;
-  height: 60px;
-  font-family: inherit;
 }
 
-select:hover {
-  border-color: #9ca3af;
-}
-
-select:focus {
+.login-form input:focus,
+.login-form select:focus {
   outline: none;
   border-color: #0066FF;
   box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
 }
 
+/* Select container for dropdown */
+.select-container {
+  position: relative;
+}
+
 .select-arrow {
   position: absolute;
-  right: 20px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   color: #6b7280;
   font-size: 12px;
-  transition: transform 0.2s ease;
-}
-
-.select-container.focused .select-arrow {
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.form-hint {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  color: #6b7280;
-  gap: 8px;
-  padding-left: 4px;
-}
-
-.hint-icon {
-  font-size: 14px;
-  opacity: 0.7;
 }
 
 /* ============================================
@@ -249,7 +209,7 @@ select:focus {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 20px;
+  padding: 18px;
   font-size: 16px;
   font-weight: 600;
   border: none;
@@ -260,6 +220,7 @@ select:focus {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   gap: 12px;
+  margin-top: 12px;
 }
 
 .btn-primary {
@@ -294,6 +255,7 @@ select:focus {
 .login-footer {
   padding-top: 32px;
   border-top: 2px solid #f3f4f6;
+  text-align: center;
 }
 
 .security-badge {
@@ -311,12 +273,7 @@ select:focus {
   border: 1px solid #bbf7d0;
 }
 
-.badge-icon {
-  font-size: 16px;
-}
-
 .support-info {
-  text-align: center;
   margin-bottom: 16px;
 }
 
@@ -354,40 +311,24 @@ select:focus {
    RESPONSIVE DESIGN
    ============================================ */
 @media (max-width: 480px) {
-  body {
-    padding: 16px;
-  }
-  
   .login-card {
     padding: 40px 32px;
     border-radius: 12px;
   }
-  
-  .header-logo {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 16px;
-  }
-  
+
   .login-header h1 {
     font-size: 28px;
   }
-  
+
   .header-subtitle {
     font-size: 14px;
   }
-  
-  select {
-    padding: 16px;
-    height: 56px;
-    font-size: 15px;
-  }
-  
+
   .btn {
-    padding: 18px;
+    padding: 16px;
     font-size: 15px;
   }
-  
+
   .alert {
     padding: 16px;
   }
@@ -397,29 +338,24 @@ select:focus {
   .login-card {
     padding: 32px 24px;
   }
-  
-  .header-logo {
-    width: 80px;
-    height: 80px;
-  }
-  
+
   .login-header h1 {
     font-size: 24px;
   }
-  
+
   .header-subtitle {
     font-size: 13px;
   }
-  
+
   .btn {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .btn-text {
     order: 1;
   }
-  
+
   .btn-arrow {
     order: 2;
   }
