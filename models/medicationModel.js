@@ -11,14 +11,38 @@ const Medication = {
     return rows;
   },
 
-  async getByPharmacyName(pharmacyName) {
-    const [rows] = await pool.query(`
+  async search({ pharmacyName, genericName, brandName, form, manufacturer }) {
+    let query = `
       SELECT m.*, p.name AS pharmacyName
       FROM medication m
-      JOIN pharmacy_medication pm ON m.medicationID = pm.medicationID
-      JOIN pharmacy p ON pm.pharmacyID = p.pharmacyID
-      WHERE p.name = ?
-    `, [pharmacyName]);
+      LEFT JOIN pharmacy_medication pm ON m.medicationID = pm.medicationID
+      LEFT JOIN pharmacy p ON pm.pharmacyID = p.pharmacyID
+      WHERE 1=1
+    `;
+    const params = [];
+
+    if (pharmacyName) {
+      query += ' AND p.name LIKE ?';
+      params.push(`%${pharmacyName}%`);
+    }
+    if (genericName) {
+      query += ' AND m.genericName LIKE ?';
+      params.push(`%${genericName}%`);
+    }
+    if (brandName) {
+      query += ' AND m.brandName LIKE ?';
+      params.push(`%${brandName}%`);
+    }
+    if (form) {
+      query += ' AND m.form LIKE ?';
+      params.push(`%${form}%`);
+    }
+    if (manufacturer) {
+      query += ' AND m.manufacturer LIKE ?';
+      params.push(`%${manufacturer}%`);
+    }
+
+    const [rows] = await pool.query(query, params);
     return rows;
   }
 };

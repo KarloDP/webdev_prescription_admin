@@ -1,36 +1,65 @@
-<link rel="stylesheet" href="/css/prescriptions.css">
-<h1>Prescriptions</h1>
-<form method="GET" action="/prescriptions">
-  <input type="text" name="name" placeholder="Search by Patient, Doctor, or Medication" value="<%= name || '' %>">
-  <button type="submit">Search</button>
-</form>
-<br>
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Patient</th>
-      <th>Medications</th>
-      <th>ID</th>
-      <th>Doctor</th>
-      <th>Status</th>
-      <th>Issue Date</th>
-      <th>Expiration</th>
-      <th>History</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% prescriptions.forEach(pr => { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prescriptions</title>
+  <link rel="stylesheet" href="/css/prescriptions.css">
+</head>
+<body>
+  <h1>Prescriptions</h1>
+
+  <!-- Search/Filter Section -->
+  <section class="search-section">
+    <h2>Search / Filter</h2>
+    <form method="GET" action="/prescriptions">
+      <input type="text" name="patient" placeholder="Patient Name" value="<%= patient || '' %>">
+      <input type="text" name="doctor" placeholder="Doctor Name" value="<%= doctor || '' %>">
+      <input type="text" name="medication" placeholder="Medication (Brand or Generic)" value="<%= medication || '' %>">
+      <select name="status">
+        <option value="">All Statuses</option>
+        <option value="active" <%= status === 'active' ? 'selected' : '' %>>Active</option>
+        <option value="expired" <%= status === 'expired' ? 'selected' : '' %>>Expired</option>
+        <option value="completed" <%= status === 'completed' ? 'selected' : '' %>>Completed</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+  </section>
+  <br>
+
+  <!-- Results Table -->
+  <table>
+    <thead>
       <tr>
-        <td><%= pr.patientName %></td>
-        <td><%= pr.medications %></td>
-        <td><%= pr.prescriptionID %></td>
-        <td><%= pr.doctorName %></td>
-        <td><%= pr.status %></td>
-        <td><%= pr.issueDate %></td>
-        <td><%= pr.expirationDate %></td>
-        <td><a href="/prescriptions/<%= pr.prescriptionID %>/history">View</a></td>
+        <th>Patient</th>
+        <th>Medications</th>
+        <th>ID</th>
+        <th>Doctor</th>
+        <th>Status</th>
+        <th>Issue Date</th>
+        <th>Expiration</th>
+        <th>History</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
-<a href="/dashboard" class="back-btn">Back to Dashboard</a>
+    </thead>
+    <tbody>
+      <% if (prescriptions && prescriptions.length > 0) { %>
+        <% prescriptions.forEach(pr => { %>
+          <tr>
+            <td data-label="Patient"><%= pr.patientName %></td>
+            <td data-label="Medications"><%= pr.medications %></td>
+            <td data-label="ID"><%= pr.prescriptionID %></td>
+            <td data-label="Doctor"><%= pr.doctorName %></td>
+            <td data-label="Status"><%= pr.status %></td>
+            <td data-label="Issue Date"><%= pr.issueDate %></td>
+            <td data-label="Expiration"><%= pr.expirationDate %></td>
+            <td data-label="History"><a href="/prescriptions/<%= pr.prescriptionID %>/history">View</a></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="8">No prescriptions found.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <a href="/dashboard" class="back-btn">Back to Dashboard</a>
+</body>
+</html>

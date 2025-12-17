@@ -8,33 +8,35 @@
 <body>
   <h1>Dispense Records for Prescription #<%= prescriptionID %></h1>
 
-  <!-- Records Table -->
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Date Dispensed</th>
-        <th>Medication</th>
-        <th>Quantity</th>
-        <th>Pharmacy</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (records && records.length > 0) { %>
-        <% records.forEach(r => { %>
-          <tr>
-            <td data-label="ID"><%= r.dispenseID %></td>
-            <td data-label="Date Dispensed"><%= r.dispenseDate %></td>
-            <td data-label="Medication"><%= r.brandName %> / <%= r.genericName %></td>
-            <td data-label="Quantity"><%= r.dispensedQuantity %></td>
-            <td data-label="Pharmacy"><%= r.pharmacyName %></td>
-          </tr>
-        <% }) %>
-      <% } else { %>
-        <tr><td colspan="5">No dispense records found for this prescription.</td></tr>
-      <% } %>
-    </tbody>
-  </table>
+  <!-- Results Table -->
+  <section class="results-section">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date Dispensed</th>
+          <th>Medication</th>
+          <th>Quantity</th>
+          <th>Pharmacy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (records && records.length > 0) { %>
+          <% records.forEach(r => { %>
+            <tr>
+              <td data-label="ID"><%= r.dispenseID %></td>
+              <td data-label="Date Dispensed"><%= r.dispenseDate %></td>
+              <td data-label="Medication"><%= r.brandName %> / <%= r.genericName %></td>
+              <td data-label="Quantity"><%= r.dispensedQuantity %></td>
+              <td data-label="Pharmacy"><%= r.pharmacyName %></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="5">No dispense records found for this prescription.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </section>
 
   <!-- Back Button -->
   <a href="/prescriptions" class="back-btn">Back to Prescriptions</a>

@@ -2,11 +2,16 @@ const Prescription = require('../models/prescriptionModel');
 
 async function showPrescriptions(req, res, next) {
   try {
-    const { name } = req.query;
-    const prescriptions = name
-      ? await Prescription.searchByName(name)
-      : await Prescription.getAll();
-    res.render('pages/prescriptions', { prescriptions, name });
+    const { patient, doctor, medication, status } = req.query;
+    let prescriptions;
+
+    if (patient || doctor || medication || status) {
+      prescriptions = await Prescription.search({ patient, doctor, medication, status });
+    } else {
+      prescriptions = await Prescription.getAll();
+    }
+
+    res.render('pages/prescriptions', { prescriptions, patient, doctor, medication, status });
   } catch (err) {
     next(err);
   }

@@ -1,39 +1,69 @@
-<link rel="stylesheet" href="/css/prescriptionItems.css">
-<h1>All Prescription Items</h1>
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>doctorID</th>
-      <th>prescriptionItemID</th>
-      <th>prescriptionID</th>
-      <th>medicationID</th>
-      <th>dosage</th>
-      <th>frequency</th>
-      <th>duration</th>
-      <th>prescribed_amount</th>
-      <th>refill_count</th>
-      <th>refillInterval</th>
-      <th>instructions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% items.forEach(item => { %>
-      <tr>
-        <td><%= item.doctorID %></td>
-        <td><%= item.prescriptionItemID %></td>
-        <td><%= item.prescriptionID %></td>
-        <td><%= item.medicationID %></td>
-        <td><%= item.dosage %></td>
-        <td><%= item.frequency %></td>
-        <td><%= item.duration %></td>
-        <td><%= item.prescribed_amount %></td>
-        <td><%= item.refill_count %></td>
-        <td><%= item.refillInterval %></td>
-        <td><%= item.instructions %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
-<a href="/dashboard" class="back-btn">Back to Dashboard</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prescription Items</title>
+  <link rel="stylesheet" href="/css/prescriptionItems.css">
+</head>
+<body>
+  <h1>Prescription Items</h1>
 
+  <!-- Search/Filter Section -->
+  <section class="search-section">
+    <h2>Search / Filter</h2>
+    <form method="GET" action="/prescription-items">
+      <input type="number" name="doctorID" placeholder="Doctor ID" value="<%= doctorID || '' %>">
+      <input type="number" name="prescriptionID" placeholder="Prescription ID" value="<%= prescriptionID || '' %>">
+      <input type="number" name="medicationID" placeholder="Medication ID" value="<%= medicationID || '' %>">
+      <input type="text" name="dosage" placeholder="Dosage" value="<%= dosage || '' %>">
+      <input type="text" name="frequency" placeholder="Frequency" value="<%= frequency || '' %>">
+      <button type="submit">Search</button>
+    </form>
+  </section>
+  <br>
 
+  <!-- Results Table -->
+  <section class="results-section">
+    <table>
+      <thead>
+        <tr>
+          <th>doctorID</th>
+          <th>prescriptionItemID</th>
+          <th>prescriptionID</th>
+          <th>medicationID</th>
+          <th>dosage</th>
+          <th>frequency</th>
+          <th>duration</th>
+          <th>prescribed_amount</th>
+          <th>refill_count</th>
+          <th>refillInterval</th>
+          <th>instructions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items && items.length > 0) { %>
+          <% items.forEach(item => { %>
+            <tr>
+              <td data-label="doctorID"><%= item.doctorID %></td>
+              <td data-label="prescriptionItemID"><%= item.prescriptionItemID %></td>
+              <td data-label="prescriptionID"><%= item.prescriptionID %></td>
+              <td data-label="medicationID"><%= item.medicationID %></td>
+              <td data-label="dosage"><%= item.dosage %></td>
+              <td data-label="frequency"><%= item.frequency %></td>
+              <td data-label="duration"><%= item.duration %></td>
+              <td data-label="prescribed_amount"><%= item.prescribed_amount %></td>
+              <td data-label="refill_count"><%= item.refill_count %></td>
+              <td data-label="refillInterval"><%= item.refillInterval %></td>
+              <td data-label="instructions"><%= item.instructions %></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="11">No prescription items found.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </section>
+
+  <a href="/dashboard" class="back-btn">Back to Dashboard</a>
+</body>
+</html>

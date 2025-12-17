@@ -2,8 +2,16 @@ const PrescriptionItem = require('../models/prescriptionItemModel');
 
 async function showPrescriptionItems(req, res, next) {
   try {
-    const items = await PrescriptionItem.getAll();
-    res.render('pages/prescriptionItems', { items });
+    const { doctorID, prescriptionID, medicationID, dosage, frequency } = req.query;
+    let items;
+
+    if (doctorID || prescriptionID || medicationID || dosage || frequency) {
+      items = await PrescriptionItem.search({ doctorID, prescriptionID, medicationID, dosage, frequency });
+    } else {
+      items = await PrescriptionItem.getAll();
+    }
+
+    res.render('pages/prescriptionItems', { items, doctorID, prescriptionID, medicationID, dosage, frequency });
   } catch (err) {
     next(err);
   }

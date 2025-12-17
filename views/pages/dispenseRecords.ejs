@@ -8,44 +8,49 @@
 <body>
   <h1>All Dispense Records</h1>
 
-  <!-- Search Form -->
-  <form method="GET" action="/dispense-records">
-    <input type="text" name="prescriptionID" placeholder="Search by Prescription ID" value="<%= prescriptionID || '' %>">
-    <input type="text" name="medication" placeholder="Search by Medication" value="<%= medication || '' %>">
-    <input type="text" name="pharmacy" placeholder="Search by Pharmacy" value="<%= pharmacy || '' %>">
-    <button type="submit">Search</button>
-  </form>
+  <!-- Search/Filter Form -->
+  <section class="search-section">
+    <h2>Search / Filter</h2>
+    <form method="GET" action="/dispense-records">
+      <input type="text" name="prescriptionID" placeholder="Prescription ID" value="<%= prescriptionID || '' %>">
+      <input type="text" name="medication" placeholder="Medication (Brand or Generic)" value="<%= medication || '' %>">
+      <input type="text" name="pharmacy" placeholder="Pharmacy Name" value="<%= pharmacy || '' %>">
+      <button type="submit">Search</button>
+    </form>
+  </section>
   <br>
 
-  <!-- Records Table -->
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Date Dispensed</th>
-        <th>Prescription ID</th>
-        <th>Medication</th>
-        <th>Quantity</th>
-        <th>Pharmacy</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (records && records.length > 0) { %>
-        <% records.forEach(r => { %>
-          <tr>
-            <td data-label="ID"><%= r.dispenseID %></td>
-            <td data-label="Date Dispensed"><%= r.dispenseDate %></td>
-            <td data-label="Prescription ID"><%= r.prescriptionID %></td>
-            <td data-label="Medication"><%= r.brandName %> / <%= r.genericName %></td>
-            <td data-label="Quantity"><%= r.dispensedQuantity %></td>
-            <td data-label="Pharmacy"><%= r.pharmacyName %></td>
-          </tr>
-        <% }) %>
-      <% } else { %>
-        <tr><td colspan="6">No dispense records found.</td></tr>
-      <% } %>
-    </tbody>
-  </table>
+  <!-- Results Table -->
+  <section class="results-section">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date Dispensed</th>
+          <th>Prescription ID</th>
+          <th>Medication</th>
+          <th>Quantity</th>
+          <th>Pharmacy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (records && records.length > 0) { %>
+          <% records.forEach(r => { %>
+            <tr>
+              <td data-label="ID"><%= r.dispenseID %></td>
+              <td data-label="Date Dispensed"><%= r.dispenseDate %></td>
+              <td data-label="Prescription ID"><%= r.prescriptionID %></td>
+              <td data-label="Medication"><%= r.brandName %> / <%= r.genericName %></td>
+              <td data-label="Quantity"><%= r.dispensedQuantity %></td>
+              <td data-label="Pharmacy"><%= r.pharmacyName %></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="6">No dispense records found.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </section>
 
   <!-- Back Button -->
   <a href="/dashboard" class="back-btn">Back to Dashboard</a>

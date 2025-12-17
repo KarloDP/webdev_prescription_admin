@@ -23,6 +23,43 @@ h2 {
   margin-top: 2rem;
 }
 
+/* Search section */
+.search-section {
+  margin-bottom: 1.5rem;
+}
+
+.search-section form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.search-section input,
+.search-section select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  min-width: 180px;
+}
+
+.search-section button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+  min-width: 120px;
+}
+
+.search-section button:hover {
+  background: #2980b9;
+}
+
 /* Table styling */
 table {
   width: 100%;
@@ -145,6 +182,17 @@ a.back-btn:hover {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .search-section form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-section input,
+  .search-section select,
+  .search-section button {
+    width: 100%;
+  }
+
   table, thead, tbody, th, td, tr {
     display: block;
   }

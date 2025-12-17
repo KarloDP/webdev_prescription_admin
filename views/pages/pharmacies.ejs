@@ -1,61 +1,91 @@
-<link rel="stylesheet" href="/css/pharmacies.css">
-<h1>Pharmacies</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pharmacies</title>
+  <link rel="stylesheet" href="/css/pharmacies.css">
+</head>
+<body>
+  <h1>Pharmacies</h1>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% pharmacies.forEach(ph => { %>
+  <!-- Search/Filter Section -->
+  <section class="search-section">
+    <h2>Search / Filter</h2>
+    <form method="GET" action="/pharmacies">
+      <input type="text" name="name" placeholder="Pharmacy Name" value="<%= name || '' %>">
+      <input type="email" name="email" placeholder="Email" value="<%= email || '' %>">
+      <select name="status">
+        <option value="">All Statuses</option>
+        <option value="pending" <%= status === 'pending' ? 'selected' : '' %>>Pending</option>
+        <option value="active" <%= status === 'active' ? 'selected' : '' %>>Active</option>
+        <option value="inactive" <%= status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+  </section>
+  <br>
+
+  <!-- Pharmacies Table -->
+  <table>
+    <thead>
       <tr>
-        <td><%= ph.pharmacyID %></td>
-        <td><%= ph.name %></td>
-        <td><%= ph.email %></td>
-        <td><%= ph.status %></td>
-        <td>
-          <% if (ph.status === 'pending') { %>
-            <form method="POST" action="/pharmacies/approve" style="display:inline;">
-              <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
-              <button type="submit">Approve</button>
-            </form>
-            <form method="POST" action="/pharmacies/deny" style="display:inline;">
-              <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
-              <button type="submit">Deny</button>
-            </form>
-          <% } else if (ph.status === 'active') { %>
-            <form method="POST" action="/pharmacies/deactivate" style="display:inline;">
-              <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
-              <button type="submit">Deactivate</button>
-            </form>
-          <% } else if (ph.status === 'inactive') { %>
-            <form method="POST" action="/pharmacies/activate" style="display:inline;">
-              <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
-              <button type="submit">Activate</button>
-            </form>
-            <form method="POST" action="/pharmacies/delete" style="display:inline;">
-              <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
-              <button type="submit">Delete</button>
-            </form>
-          <% } %>
-        </td>
+        <th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Action</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% if (pharmacies && pharmacies.length > 0) { %>
+        <% pharmacies.forEach(ph => { %>
+          <tr>
+            <td data-label="ID"><%= ph.pharmacyID %></td>
+            <td data-label="Name"><%= ph.name %></td>
+            <td data-label="Email"><%= ph.email %></td>
+            <td data-label="Status"><%= ph.status %></td>
+            <td data-label="Action">
+              <% if (ph.status === 'pending') { %>
+                <form method="POST" action="/pharmacies/approve" style="display:inline;">
+                  <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
+                  <button type="submit">Approve</button>
+                </form>
+                <form method="POST" action="/pharmacies/deny" style="display:inline;">
+                  <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
+                  <button type="submit" class="danger">Deny</button>
+                </form>
+              <% } else if (ph.status === 'active') { %>
+                <form method="POST" action="/pharmacies/deactivate" style="display:inline;">
+                  <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
+                  <button type="submit">Deactivate</button>
+                </form>
+              <% } else if (ph.status === 'inactive') { %>
+                <form method="POST" action="/pharmacies/activate" style="display:inline;">
+                  <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
+                  <button type="submit" class="success">Activate</button>
+                </form>
+                <form method="POST" action="/pharmacies/delete" style="display:inline;">
+                  <input type="hidden" name="pharmacyID" value="<%= ph.pharmacyID %>">
+                  <button type="submit" class="danger">Delete</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="5">No pharmacies found.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
 
-<h2>Add New Pharmacy</h2>
-<form method="POST" action="/pharmacies/add">
-  <input type="text" name="name" placeholder="Pharmacy Name" required><br>
-  <input type="text" name="password" placeholder="Password" required><br>
-  <input type="text" name="address" placeholder="Address" required><br>
-  <input type="text" name="contactNumber" placeholder="Contact Number" required><br>
-  <input type="email" name="email" placeholder="Email" required><br>
-  <input type="text" name="clinicAddress" placeholder="Clinic Address" required><br>
-  <button type="submit">Add Pharmacy</button>
-</form>
+  <!-- Add Pharmacy Form -->
+  <h2>Add New Pharmacy</h2>
+  <form method="POST" action="/pharmacies/add">
+    <input type="text" name="name" placeholder="Pharmacy Name" required>
+    <input type="text" name="password" placeholder="Password" required>
+    <input type="text" name="address" placeholder="Address" required>
+    <input type="text" name="contactNumber" placeholder="Contact Number" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="clinicAddress" placeholder="Clinic Address" required>
+    <button type="submit">Add Pharmacy</button>
+  </form>
 
-<a href="/dashboard" class="back-btn">Back to Dashboard</a>
-
-
+  <a href="/dashboard" class="back-btn">Back to Dashboard</a>
+</body>
+</html>

@@ -2,13 +2,22 @@ const Pharmacy = require('../models/pharmacyModel');
 
 async function showPharmacies(req, res, next) {
   try {
-    const pharmacies = await Pharmacy.getAll();
-    res.render('pages/pharmacies', { pharmacies });
+    const { name, email, status } = req.query;
+    let pharmacies;
+
+    if (name || email || status) {
+      pharmacies = await Pharmacy.search({ name, email, status });
+    } else {
+      pharmacies = await Pharmacy.getAll();
+    }
+
+    res.render('pages/pharmacies', { pharmacies, name, email, status });
   } catch (err) {
     console.error('Pharmacy Error:', err);
     next(err);
   }
 }
+
 
 async function addPharmacy(req, res, next) {
   try {

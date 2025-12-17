@@ -8,46 +8,46 @@
 <body>
   <h1>Medications</h1>
 
-  <!-- Search Form at the top -->
-  <form method="GET" action="/medications/filter">
-    <input type="text" name="pharmacyName" placeholder="Enter Pharmacy Name" required>
-    <button type="submit">Filter</button>
+  <!-- Search/Filter Form -->
+  <form method="GET" action="/medications">
+    <input type="text" name="pharmacyName" placeholder="Pharmacy Name" value="<%= pharmacyName || '' %>">
+    <input type="text" name="genericName" placeholder="Generic Name" value="<%= genericName || '' %>">
+    <input type="text" name="brandName" placeholder="Brand Name" value="<%= brandName || '' %>">
+    <input type="text" name="form" placeholder="Form (e.g. Tablet)" value="<%= form || '' %>">
+    <input type="text" name="manufacturer" placeholder="Manufacturer" value="<%= manufacturer || '' %>">
+    <button type="submit">Search</button>
   </form>
   <br>
 
   <!-- Medications Table -->
   <table>
-    <thead>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Generic Name</th>
+      <th>Brand Name</th>
+      <th>Form</th>
+      <th>Strength</th>
+      <th>Manufacturer</th>
+      <th>Stock</th>
+      <th>Pharmacy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% medications.forEach(med => { %>
       <tr>
-        <th>ID</th>
-        <th>Generic Name</th>
-        <th>Brand Name</th>
-        <th>Form</th>
-        <th>Strength</th>
-        <th>Manufacturer</th>
-        <th>Stock</th>
-        <th>Pharmacy</th>
+        <td data-label="ID"><%= med.medicationID %></td>
+        <td data-label="Generic Name"><%= med.genericName %></td>
+        <td data-label="Brand Name"><%= med.brandName %></td>
+        <td data-label="Form"><%= med.form %></td>
+        <td data-label="Strength"><%= med.strength %> mg</td>
+        <td data-label="Manufacturer"><%= med.manufacturer %></td>
+        <td data-label="Stock"><%= med.stock ?? 'N/A' %></td>
+        <td data-label="Pharmacy"><%= med.pharmacyName ?? 'N/A' %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% if (medications && medications.length > 0) { %>
-        <% medications.forEach(med => { %>
-          <tr>
-            <td data-label="ID"><%= med.medicationID %></td>
-            <td data-label="Generic Name"><%= med.genericName %></td>
-            <td data-label="Brand Name"><%= med.brandName %></td>
-            <td data-label="Form"><%= med.form %></td>
-            <td data-label="Strength"><%= med.strength %> mg</td>
-            <td data-label="Manufacturer"><%= med.manufacturer %></td>
-            <td data-label="Stock"><%= med.stock ?? 'N/A' %></td>
-            <td data-label="Pharmacy"><%= med.pharmacyName ?? 'N/A' %></td>
-          </tr>
-        <% }) %>
-      <% } else { %>
-        <tr><td colspan="8">No medications found.</td></tr>
-      <% } %>
-    </tbody>
-  </table>
+    <% }) %>
+  </tbody>
+</table>
 
   <!-- Back Button -->
   <a href="/dashboard" class="back-btn">Back to Dashboard</a>

@@ -22,17 +22,16 @@ async function addPatient(req, res, next) {
 
 async function showPatients(req, res, next) {
   try {
-    const [ 
-      patients 
-    ] = await Promise.all([
-      Patient.getAll()
-    ]);
+    const { name, email, doctorID, gender } = req.query;
+    let patients;
 
-    const table = [
-      {name : 'Patients',              count: patients.length,            link: '/patients'} 
-    ];
+    if (name || email || doctorID || gender) {
+      patients = await Patient.search({ name, email, doctorID, gender });
+    } else {
+      patients = await Patient.getAll();
+    }
 
-    res.render('pages/patients', { patients, table });
+    res.render('pages/patients', { patients, name, email, doctorID, gender });
   } catch (err) {
     next(err);
   }
