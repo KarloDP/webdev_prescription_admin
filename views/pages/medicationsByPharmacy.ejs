@@ -1,25 +1,46 @@
-<link rel="stylesheet" href="/css/medicationsByPharmacy.css">
-<h1>Medications at <%= pharmacyName %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medications at <%= pharmacyName %></title>
+  <link rel="stylesheet" href="/css/medications.css"> <!-- reuse same CSS -->
+</head>
+<body>
+  <h1>Medications at <%= pharmacyName %></h1>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th><th>Generic Name</th><th>Brand Name</th>
-      <th>Form</th><th>Strength</th><th>Manufacturer</th><th>Stock</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% medications.forEach(med => { %>
+  <!-- Medications Table -->
+  <table>
+    <thead>
       <tr>
-        <td><%= med.medicationID %></td>
-        <td><%= med.genericName %></td>
-        <td><%= med.brandName %></td>
-        <td><%= med.form %></td>
-        <td><%= med.strength %> mg</td>
-        <td><%= med.manufacturer %></td>
-        <td><%= med.stock ?? 'N/A' %></td>
+        <th>ID</th>
+        <th>Generic Name</th>
+        <th>Brand Name</th>
+        <th>Form</th>
+        <th>Strength</th>
+        <th>Manufacturer</th>
+        <th>Stock</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
-<br><a href="/medications" class="back-btn">Back to All Medications</a>
+    </thead>
+    <tbody>
+      <% if (medications && medications.length > 0) { %>
+        <% medications.forEach(med => { %>
+          <tr>
+            <td data-label="ID"><%= med.medicationID %></td>
+            <td data-label="Generic Name"><%= med.genericName %></td>
+            <td data-label="Brand Name"><%= med.brandName %></td>
+            <td data-label="Form"><%= med.form %></td>
+            <td data-label="Strength"><%= med.strength %> mg</td>
+            <td data-label="Manufacturer"><%= med.manufacturer %></td>
+            <td data-label="Stock"><%= med.stock ?? 'N/A' %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="7">No medications found for this pharmacy.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Back Button -->
+  <a href="/medications" class="back-btn">Back to All Medications</a>
+</body>
+</html>

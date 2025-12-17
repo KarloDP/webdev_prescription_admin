@@ -1,34 +1,55 @@
-<link rel="stylesheet" href="/css/medications.css">
-<h1>Medications</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medications</title>
+  <link rel="stylesheet" href="/css/medications.css">
+</head>
+<body>
+  <h1>Medications</h1>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th><th>Generic Name</th><th>Brand Name</th>
-      <th>Form</th><th>Strength</th><th>Manufacturer</th><th>Stock</th>
-      <th>Pharmacy</th> <!-- new column -->
-    </tr>
-  </thead>
-  <tbody>
-    <% medications.forEach(med => { %>
+  <!-- Search Form at the top -->
+  <form method="GET" action="/medications/filter">
+    <input type="text" name="pharmacyName" placeholder="Enter Pharmacy Name" required>
+    <button type="submit">Filter</button>
+  </form>
+  <br>
+
+  <!-- Medications Table -->
+  <table>
+    <thead>
       <tr>
-        <td><%= med.medicationID %></td>
-        <td><%= med.genericName %></td>
-        <td><%= med.brandName %></td>
-        <td><%= med.form %></td>
-        <td><%= med.strength %> mg</td>
-        <td><%= med.manufacturer %></td>
-        <td><%= med.stock ?? 'N/A' %></td>
-        <td><%= med.pharmacyName ?? 'N/A' %></td> <!-- new cell -->
+        <th>ID</th>
+        <th>Generic Name</th>
+        <th>Brand Name</th>
+        <th>Form</th>
+        <th>Strength</th>
+        <th>Manufacturer</th>
+        <th>Stock</th>
+        <th>Pharmacy</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% if (medications && medications.length > 0) { %>
+        <% medications.forEach(med => { %>
+          <tr>
+            <td data-label="ID"><%= med.medicationID %></td>
+            <td data-label="Generic Name"><%= med.genericName %></td>
+            <td data-label="Brand Name"><%= med.brandName %></td>
+            <td data-label="Form"><%= med.form %></td>
+            <td data-label="Strength"><%= med.strength %> mg</td>
+            <td data-label="Manufacturer"><%= med.manufacturer %></td>
+            <td data-label="Stock"><%= med.stock ?? 'N/A' %></td>
+            <td data-label="Pharmacy"><%= med.pharmacyName ?? 'N/A' %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="8">No medications found.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
 
-<h2>Search by Pharmacy Name</h2>
-<form method="GET" action="/medications/filter">
-  <input type="text" name="pharmacyName" placeholder="Enter Pharmacy Name" required>
-  <button type="submit">Filter</button>
-</form>
-
-<a href="/dashboard" class="back-btn">Back to Dashboard</a>
+  <!-- Back Button -->
+  <a href="/dashboard" class="back-btn">Back to Dashboard</a>
+</body>
+</html>
